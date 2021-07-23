@@ -13,6 +13,7 @@ function domTree(element, parentElement, childElement, tag) {
   this.parentElement = parentElement;
   this.childElement = childElement;
   this.tag = tag;
+  this.id = element.getId();
 }
 
 // 텍스트 밀도 계산시 제외할 태그
@@ -30,20 +31,24 @@ const EXCEPT_TAG = ["script", "comment", "style"];
       "https://www.google.com/search?q=%ED%81%AC%EB%A1%A4%EB%9F%AC&oq=%ED%81%AC%EB%A1%A4%EB%9F%AC&aqs=chrome.0.69i59l3j69i61l3.2074j0j7&sourceid=chrome&ie=UTF-8"
     );
 
-    const body = await driver.findElement(By.tagName("body"));
+    const source = await driver.getPageSource();
 
-    const rootElement = await new domTree(
-      body,
-      null,
-      await getChildElement(body),
-      await body.getTagName()
-    );
+    console.log(source);
 
-    console.log(rootElement);
+    // const body = await driver.findElement(By.tagName("body"));
+
+    // console.log(body.getId());
+
+    // const rootElement = await new domTree(
+    //   body,
+    //   null,
+    //   await getChildElement(body),
+    //   await body.getTagName()
+    // );
+
+    // console.log(rootElement);
 
     let userAgent = await driver.executeScript("return navigator.userAgent;");
-
-    console.log(`[userAgent] : ${userAgent}`);
   } finally {
     await driver.quit(), 1000;
   }
